@@ -1,0 +1,17 @@
+# Rust
+/target/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+
+# macOS
+.DS_Store
+
+# General
+*.log
+*.tmp
+
+# Project-specific
+.dir_bash_history

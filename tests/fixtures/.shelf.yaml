@@ -1,0 +1,48 @@
+# Global exclusions apply to all profiles.
+global:
+  excludes:
+    - '**/tmp/'
+    - '*.log'
+    - 'legacy/'
+    - '**/node_modules/'
+    - '**/.DS_Store'
+    - '**/target/'
+    - '**/*.pyc'
+    - '**/__pycache__/'
+
+# Profile for backend development on all services
+backend:
+  description: "Focus on all backend services."
+  includes:
+    - 'services/'
+    - 'packages/api-client/'
+    - '.gitlab-ci.yml'
+  excludes:
+    - 'services/*/tests/frontend/'
+
+# Profile for working on just the main frontend application
+frontend:
+  description: "Scope to the main web application and its shared UI components."
+  includes:
+    - 'web/main-app/'
+    - 'packages/ui-components/'
+  excludes:
+    - 'web/main-app/dist/'
+
+# Profile for a full-stack developer working on a specific feature
+feature-slice:
+  description: "Full-stack context for a feature (orders service and main app)."
+  includes:
+    - 'services/order-service/'
+    - 'web/main-app/'
+    - 'packages/'
+  excludes:
+    - 'services/order-service/tmp/'
+
+# Profile for technical writers
+tech-docs:
+  description: "Context for writing documentation."
+  includes:
+    - 'docs/'
+    - 'database/schema.sql'
+    - 'README.md'
