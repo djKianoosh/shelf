@@ -93,6 +93,48 @@ Available profiles:
 • tech-docs     : Context for writing documentation.
 ```
 
+### `shelf status`
+
+Shows the currently active profile and any user-defined patterns in `.geminiignore`.
+
+**Usage:**
+
+```bash
+shelf status
+```
+
+**Output (Profile Active with User Patterns):**
+
+```
+Profile 'frontend' is active.
+
+User-defined patterns:
+• .env
+• *.swo
+```
+
+**Output (No Profile Active, with User Patterns):**
+
+```
+No shelf profile is active.
+
+User-defined patterns:
+• .env
+• *.swo
+```
+
+**Output (No Profile Active, No User Patterns):**
+
+```
+No shelf profile is active.
+```
+
+**Output (No `.geminiignore` file):**
+
+```
+No .geminiignore file found.
+```
+
 ## Installation (Coming Soon)
 
 Instructions on how to install `shelf` will be provided here.

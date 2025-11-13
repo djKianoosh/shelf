@@ -17,6 +17,8 @@ struct Cli {
 enum Commands {
     /// Lists all available profiles
     List,
+    /// Shows the currently active profile
+    Status,
 }
 
 fn main() {
@@ -32,6 +34,9 @@ fn run() -> Result<(), AppError> {
     match cli.command {
         Commands::List => {
             commands::list::list_profiles()?;
+        }
+        Commands::Status => {
+            commands::status::run_status()?;
         }
     }
 

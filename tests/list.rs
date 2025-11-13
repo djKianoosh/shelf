@@ -1,10 +1,10 @@
 use anyhow::Result;
-use assert_cmd::Command;
+use assert_cmd::cargo::cargo_bin_cmd;
 use predicates::prelude::*;
 
 #[test]
 fn test_list_profiles() -> Result<()> {
-    let mut cmd = Command::cargo_bin("shelf")?;
+    let mut cmd = cargo_bin_cmd!("shelf");
     cmd.current_dir("tests/fixtures");
     cmd.arg("list");
 
@@ -26,3 +26,4 @@ fn test_list_profiles() -> Result<()> {
 
     Ok(())
 }
+
