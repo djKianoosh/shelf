@@ -1,9 +1,8 @@
 use crate::error::AppError;
+use crate::file_utils;
 use serde::Deserialize;
 use std::collections::BTreeMap;
-use std::env;
 use std::fs;
-use std::path::PathBuf;
 
 #[derive(Debug, Deserialize)]
 pub struct Config {
@@ -22,19 +21,9 @@ pub struct Profile {
 }
 
 pub fn find_and_parse() -> Result<Config, AppError> {
-    let config_path = find_config_file()?;
+    let config_path =
+        file_utils::find_file_upwards(".shelf.yaml")?.ok_or(AppError::ConfigNotFound)?;
     let file_content = fs::read_to_string(config_path)?;
     let config: Config = serde_yaml::from_str(&file_content)?;
     Ok(config)
-}
-
-fn find_config_file() -> Result<PathBuf, AppError> {
-    let current_dir = env::current_dir()?;
-    for ancestor in current_dir.ancestors() {
-        let config_path = ancestor.join(".shelf.yaml");
-        if config_path.exists() {
-            return Ok(config_path);
-        }
-    }
-    Err(AppError::ConfigNotFound)
 }

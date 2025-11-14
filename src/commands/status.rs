@@ -1,13 +1,12 @@
 use crate::error::AppError;
-use std::env;
+use crate::file_utils;
 use std::fs;
-use std::path::PathBuf;
 
 const SHELF_START_MARKER: &str = "# --- SHELF START ---";
 const SHELF_END_MARKER: &str = "# --- SHELF END ---";
 
 pub fn run_status() -> Result<(), AppError> {
-    let gemini_ignore_path = match find_file_upwards(".geminiignore")? {
+    let gemini_ignore_path = match file_utils::find_file_upwards(".geminiignore")? {
         Some(path) => path,
         None => {
             println!("No .geminiignore file found.");
@@ -60,13 +59,4 @@ pub fn run_status() -> Result<(), AppError> {
     Ok(())
 }
 
-fn find_file_upwards(filename: &str) -> Result<Option<PathBuf>, AppError> {
-    let current_dir = env::current_dir()?;
-    for ancestor in current_dir.ancestors() {
-        let file_path = ancestor.join(filename);
-        if file_path.exists() {
-            return Ok(Some(file_path));
-        }
-    }
-    Ok(None)
-}
+

@@ -3,6 +3,7 @@ use clap::{Parser, Subcommand};
 mod commands;
 mod config;
 mod error;
+mod file_utils;
 
 use crate::error::AppError;
 
