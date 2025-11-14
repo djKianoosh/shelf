@@ -135,6 +135,22 @@ No shelf profile is active.
 No .geminiignore file found.
 ```
 
+### `shelf enable <profile_name>`
+
+Activates a profile, modifying the `.geminiignore` file to reflect the profile's include and exclude rules.
+
+**Usage:**
+
+```bash
+shelf enable frontend
+```
+
+**Output:**
+
+```
+✔ Activated profile 'frontend'. .geminiignore updated.
+```
+
 ## Installation (Coming Soon)
 
 Instructions on how to install `shelf` will be provided here.

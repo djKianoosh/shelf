@@ -20,6 +20,11 @@ enum Commands {
     List,
     /// Shows the currently active profile
     Status,
+    /// Activates a profile
+    Enable {
+        /// The name of the profile to activate
+        profile_name: String,
+    },
 }
 
 fn main() {
@@ -38,6 +43,9 @@ fn run() -> Result<(), AppError> {
         }
         Commands::Status => {
             commands::status::run_status()?;
+        }
+        Commands::Enable { profile_name } => {
+            commands::enable::enable_profile(&profile_name)?;
         }
     }
 
