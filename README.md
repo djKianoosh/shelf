@@ -87,10 +87,10 @@ shelf list
 
 ```
 Available profiles:
-• backend       : Focus on all backend services.
-• feature-slice : Full-stack context for a feature (orders service and main app).
-• frontend      : Scope to the main web application and its shared UI components.
-• tech-docs     : Context for writing documentation.
+• backend      : Focus on all backend services.
+• feature-slice: Full-stack context for a feature (orders service and main app).
+• frontend     : Scope to the main web application and its shared UI components.
+• tech-docs    : Context for writing documentation.
 ```
 
 ### `shelf status`

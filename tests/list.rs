@@ -8,21 +8,28 @@ fn test_list_profiles() -> Result<()> {
     cmd.current_dir("tests/fixtures");
     cmd.arg("list");
 
-    cmd.assert().success().stdout(
-        predicate::str::contains("Available profiles:")
-            .and(predicate::str::contains(
-                "• backend       : Focus on all backend services.",
-            ))
-            .and(predicate::str::contains(
-                "• feature-slice : Full-stack context for a feature (orders service and main app).",
-            ))
-            .and(predicate::str::contains(
-                "• frontend      : Scope to the main web application and its shared UI components.",
-            ))
-            .and(predicate::str::contains(
-                "• tech-docs     : Context for writing documentation.",
-            )),
-    );
+    cmd.assert()
+        .success()
+        .stdout(predicate::str::is_match(r"Available profiles:").unwrap())
+        .stdout(
+            predicate::str::is_match(r"•\s*backend\s*:\s*Focus on all backend services.").unwrap(),
+        )
+        .stdout(
+            predicate::str::is_match(
+                r"•\s*feature-slice\s*:\s*Full-stack context for a feature \(orders service and main app\).",
+            )
+            .unwrap(),
+        )
+        .stdout(
+            predicate::str::is_match(
+                r"•\s*frontend\s*:\s*Scope to the main web application and its shared UI components.",
+            )
+            .unwrap(),
+        )
+        .stdout(
+            predicate::str::is_match(r"•\s*tech-docs\s*:\s*Context for writing documentation.")
+                .unwrap(),
+        );
 
     Ok(())
 }
