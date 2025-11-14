@@ -16,12 +16,7 @@ pub fn list_profiles() -> Result<(), AppError> {
     println!("Available profiles:");
     for (name, profile) in profiles {
         let description = profile.description.unwrap_or_default();
-        println!(
-            "• {:<width$}: {}",
-            name,
-            description,
-            width = max_name_len
-        );
+        println!("• {:<width$}: {}", name, description, width = max_name_len);
     }
 
     Ok(())

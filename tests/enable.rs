@@ -26,9 +26,9 @@ fn test_enable_profile() -> Result<()> {
     cmd.current_dir(dir.path());
     cmd.arg("enable").arg("frontend");
 
-    cmd.assert()
-        .success()
-        .stdout(predicate::str::contains("✔ Activated profile 'frontend'. .geminiignore updated."));
+    cmd.assert().success().stdout(predicate::str::contains(
+        "✔ Activated profile 'frontend'. .geminiignore updated.",
+    ));
 
     let gemini_ignore_content = fs::read_to_string(dir.path().join(".geminiignore"))?;
     let expected_content = [

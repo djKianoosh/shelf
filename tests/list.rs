@@ -33,4 +33,3 @@ fn test_list_profiles() -> Result<()> {
 
     Ok(())
 }
-

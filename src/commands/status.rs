@@ -58,5 +58,3 @@ pub fn run_status() -> Result<(), AppError> {
 
     Ok(())
 }
-
-

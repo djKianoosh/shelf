@@ -1,7 +1,5 @@
 use crate::error::AppError;
-use crate::file_utils::{
-    self, update_gemini_ignore, SHELF_END_MARKER, SHELF_START_MARKER,
-};
+use crate::file_utils::{self, SHELF_END_MARKER, SHELF_START_MARKER, update_gemini_ignore};
 use std::fs;
 
 pub fn disable_profile() -> Result<(), AppError> {

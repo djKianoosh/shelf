@@ -1,8 +1,6 @@
 use crate::config::{self, Profile};
 use crate::error::AppError;
-use crate::file_utils::{
-    self, update_gemini_ignore, SHELF_END_MARKER, SHELF_START_MARKER,
-};
+use crate::file_utils::{self, SHELF_END_MARKER, SHELF_START_MARKER, update_gemini_ignore};
 use std::fs;
 
 pub fn enable_profile(profile_name: &str) -> Result<(), AppError> {
@@ -12,8 +10,8 @@ pub fn enable_profile(profile_name: &str) -> Result<(), AppError> {
         .get(profile_name)
         .ok_or_else(|| AppError::ProfileNotFound(profile_name.to_string()))?;
 
-    let gemini_ignore_path = file_utils::find_file_upwards(".geminiignore")?
-        .unwrap_or_else(|| ".geminiignore".into());
+    let gemini_ignore_path =
+        file_utils::find_file_upwards(".geminiignore")?.unwrap_or_else(|| ".geminiignore".into());
 
     let original_content = if gemini_ignore_path.exists() {
         fs::read_to_string(&gemini_ignore_path)?
