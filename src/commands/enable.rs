@@ -19,8 +19,10 @@ pub fn enable_profile(profile_name: &str) -> Result<(), AppError> {
         String::new()
     };
 
-    let global_excludes = config.profiles.get("global").map(|p| &p.excludes);
-    let shelf_block = generate_shelf_block(profile_name, profile, global_excludes);
+    let global_profile = config.profiles.get("global");
+    let global_includes = global_profile.map(|p| &p.includes);
+    let global_excludes = global_profile.map(|p| &p.excludes);
+    let shelf_block = generate_shelf_block(profile_name, profile, global_includes, global_excludes);
     let new_content = update_gemini_ignore(&original_content, &shelf_block);
 
     fs::write(&gemini_ignore_path, new_content)?;
@@ -36,6 +38,7 @@ pub fn enable_profile(profile_name: &str) -> Result<(), AppError> {
 fn generate_shelf_block(
     profile_name: &str,
     profile: &Profile,
+    global_includes: Option<&Vec<String>>,
     global_excludes: Option<&Vec<String>>,
 ) -> String {
     let mut block = vec![
@@ -44,17 +47,28 @@ fn generate_shelf_block(
         "*".to_string(),
     ];
 
-    for include in &profile.includes {
-        let is_dir = include.ends_with('/');
-        let base_path = include.trim_end_matches('/');
-        let clean_path = base_path.trim_start_matches('/');
+    // Helper closure to avoid repetition
+    let mut add_includes = |includes: &Vec<String>| {
+        for include in includes {
+            let is_dir = include.ends_with('/');
+            let base_path = include.trim_end_matches('/');
+            let clean_path = base_path.trim_start_matches('/');
 
-        if is_dir {
-            block.push(format!("!/{}", clean_path));
-            block.push(format!("!/{}/**", clean_path));
-        } else {
-            block.push(format!("!/{}", clean_path));
+            if is_dir {
+                block.push(format!("!/{}", clean_path));
+                block.push(format!("!/{}/**", clean_path));
+            } else {
+                block.push(format!("!/{}", clean_path));
+            }
         }
+    };
+
+    // Process profile includes
+    add_includes(&profile.includes);
+
+    // Process global includes
+    if let Some(includes) = global_includes {
+        add_includes(includes);
     }
 
     block.extend(profile.excludes.iter().cloned());

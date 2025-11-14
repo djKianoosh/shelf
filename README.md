@@ -30,7 +30,7 @@ The tool's behavior is defined by a YAML configuration file, `.shelf.yaml`, loca
 
 ### `.shelf.yaml` Configuration Structure
 
-*   **`global` (Optional):** A top-level key for patterns that should be excluded from the context *regardless of the active profile*.
+*   **`global` (Optional):** A top-level key for patterns that should be included or excluded from the context *regardless of the active profile*. It can contain `includes` and `excludes`.
 *   **`<profile_name>`:** A unique name for a context profile (e.g., `frontend`, `backend`).
     *   **`description` (Optional):** A short, human-readable description of the profile's purpose.
     *   **`includes`:** A list of directories or files to be **included** in the context.
@@ -39,8 +39,11 @@ The tool's behavior is defined by a YAML configuration file, `.shelf.yaml`, loca
 #### Example `.shelf.yaml`
 
 ```yaml
-# Global exclusions apply to all profiles.
+# Global includes and exclusions apply to all profiles.
 global:
+  includes:
+    - '.ai/'
+    - 'docs/'
   excludes:
     - '**/tmp/'
     - '*.log'

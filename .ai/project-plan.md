@@ -19,7 +19,7 @@ The tool's behavior will be defined by a YAML configuration file, `.shelf.yaml`,
 
 The file defines named "profiles" that specify which files to include or exclude.
 
-*   **`global` (Optional):** A top-level key for patterns that should be excluded from the context *regardless of the active profile*.
+*   **`global` (Optional):** A top-level key for patterns that should be included or excluded from the context *regardless of the active profile*. It can contain `includes` and `excludes`.
 *   **`<profile_name>`:** A unique name for a context profile (e.g., `frontend-work`, `api-docs`).
     *   **`description` (Optional):** A short, human-readable description of the profile's purpose.
     *   **`includes`:** A list of directories or files to be **included** in the context.
@@ -27,8 +27,11 @@ The file defines named "profiles" that specify which files to include or exclude
 
 ##### **Example `.shelf.yaml`**
 ```yaml
-# Global exclusions apply to all profiles.
+# Global includes and exclusions apply to all profiles.
 global:
+  includes:
+    - '.ai/'
+    - 'docs/'
   excludes:
     - '**/tmp/'
     - '*.log'
@@ -91,8 +94,9 @@ Activates a profile, modifying a `.geminiignore` file.
         a. A comment identifying the active profile: `# Profile: <profile_name>`
         b. A pattern to ignore files in the current directory: `*`
         c. For each pattern in the profile's `includes` list, add anchored negation patterns to re-include the desired files and directories. For a directory like `docs/`, this generates `!/docs` and `!/docs/**`. For a file, it generates an anchored pattern like `!/README.md`.
-        d. All patterns from the profile's `excludes` list.
-        e. All patterns from the `global.excludes` list.
+        d. For each pattern in the `global.includes` list, apply the same negation logic.
+        e. All patterns from the profile's `excludes` list.
+        f. All patterns from the `global.excludes` list.
 *   **Success Output:**
     ```shell
     $ shelf enable frontend
