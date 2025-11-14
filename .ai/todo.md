@@ -8,3 +8,4 @@
 - [x] Plan and write the "Installation" section in `README.md`.
 - [x] Plan and write the "Development" section in `README.md`.
 - [x] Choose and add a license to the project.
+- [x] Refine documentation and project plan with Gemini CLI specifics.

@@ -34,8 +34,8 @@ fn test_enable_profile() -> Result<()> {
     let expected_content = [
         "# --- SHELF START ---",
         "# Profile: frontend",
-        "**/*",
-        "!frontend-include",
+        "*",
+        "!/frontend-include",
         "frontend-exclude",
         "global-exclude",
         "# --- SHELF END ---",
@@ -43,6 +43,36 @@ fn test_enable_profile() -> Result<()> {
     .join("\n");
 
     assert!(gemini_ignore_content.contains(&expected_content));
+
+    Ok(())
+}
+
+#[test]
+fn test_enable_profile_with_directory_include() -> Result<()> {
+    let dir = tempdir()?;
+    let shelf_yaml_content = r#"
+frontend:
+  description: "Frontend profile"
+  includes:
+    - "src/"
+    - "README.md"
+  excludes:
+    - "src/tests/"
+"#;
+    fs::write(dir.path().join(".shelf.yaml"), shelf_yaml_content)?;
+
+    let mut cmd = cargo_bin_cmd!("shelf");
+    cmd.current_dir(dir.path());
+    cmd.arg("enable").arg("frontend");
+
+    cmd.assert().success();
+
+    let gemini_ignore_content = fs::read_to_string(dir.path().join(".geminiignore"))?;
+
+    assert!(gemini_ignore_content.contains("!/src"));
+    assert!(gemini_ignore_content.contains("!/src/**"));
+    assert!(gemini_ignore_content.contains("!/README.md"));
+    assert!(gemini_ignore_content.contains("src/tests/"));
 
     Ok(())
 }

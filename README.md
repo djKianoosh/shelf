@@ -1,10 +1,28 @@
 # Shelf CLI
 
-`shelf` is a command-line interface (CLI) utility designed to help developers manage the context provided to Large Language Model (LLM) clients. It allows you to declaratively control which files are ignored, ensuring your LLM focuses on the most relevant parts of your codebase.
+`shelf` is a command-line interface (CLI) utility designed to help developers manage the context provided to the Gemini CLI. It allows you to declaratively control which files are ignored, ensuring that Gemini loads the correct files into memory on startup and focuses on the most relevant parts of your codebase.
+
+After enabling a profile with `shelf`, you can verify that the correct files are in scope by running the `/memory list` command within the Gemini CLI.
+
+## How it Works
+
+`shelf` works by modifying your project's `.geminiignore` file. Based on the active profile, it generates rules to ignore everything by default, and then adds specific exceptions for the files and directories you want to include.
+
+This allows you to precisely control the context Gemini uses.
+
+### Verifying the Active Context
+
+After you enable a profile, you should restart your Gemini CLI session. You can then verify which files have been loaded into memory by running:
+
+```bash
+/memory list
+```
+
+This command will show you the list of `GEMINI.md` files and other resources that Gemini is actively using, allowing you to confirm that your profile has been applied correctly.
 
 ## Project Goal
 
-To provide a robust, ergonomic CLI tool in Rust that enables developers to quickly scope their LLM's context to specific parts of a large monorepo or project, improving relevance and reducing noise.
+To provide a robust, ergonomic CLI tool in Rust that enables developers to quickly scope the Gemini CLI's context. By managing the `.geminiignore` file, `shelf` ensures that only relevant project files are loaded into memory, improving the accuracy of suggestions and reducing noise from unrelated code.
 
 ## Core Functionality: Declarative Profiles
 

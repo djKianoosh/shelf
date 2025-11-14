@@ -4,7 +4,7 @@ You are an expert senior software engineer specializing in creating robust, ergo
 
 ### **1. Project Goal & User Stories**
 
-You are to create a command-line interface (CLI) utility named `shelf`. This tool will help developers manage the context provided to Large Language Model (LLM) clients by declaratively controlling which files are ignored.
+You are to create a command-line interface (CLI) utility named `shelf`. This tool will help developers manage the context provided to the Gemini CLI by declaratively controlling which files are ignored via the .geminiignore file.
 
 **User Stories:**
 *   **As a developer working on a large monorepo,** I want to quickly scope my LLM's context to only the `frontend` project, so I get more relevant suggestions and avoid polluting the context with backend or documentation files.
@@ -89,8 +89,8 @@ Activates a profile, modifying a `.geminiignore` file.
     3.  **Completely clear any existing content within this block.**
     4.  Write the following patterns into the block in this specific order to ensure correct precedence:
         a. A comment identifying the active profile: `# Profile: <profile_name>`
-        b. A pattern to ignore everything: `**/*`
-        c. For each pattern in the profile's `includes` list, add a negation pattern (e.g., `docs/` becomes `!docs/`).
+        b. A pattern to ignore files in the current directory: `*`
+        c. For each pattern in the profile's `includes` list, add anchored negation patterns to re-include the desired files and directories. For a directory like `docs/`, this generates `!/docs` and `!/docs/**`. For a file, it generates an anchored pattern like `!/README.md`.
         d. All patterns from the profile's `excludes` list.
         e. All patterns from the `global.excludes` list.
 *   **Success Output:**

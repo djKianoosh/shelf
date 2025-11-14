@@ -41,11 +41,20 @@ fn generate_shelf_block(
     let mut block = vec![
         SHELF_START_MARKER.to_string(),
         format!("# Profile: {}", profile_name),
-        "**/*".to_string(),
+        "*".to_string(),
     ];
 
     for include in &profile.includes {
-        block.push(format!("!{}", include));
+        let is_dir = include.ends_with('/');
+        let base_path = include.trim_end_matches('/');
+        let clean_path = base_path.trim_start_matches('/');
+
+        if is_dir {
+            block.push(format!("!/{}", clean_path));
+            block.push(format!("!/{}/**", clean_path));
+        } else {
+            block.push(format!("!/{}", clean_path));
+        }
     }
 
     block.extend(profile.excludes.iter().cloned());
