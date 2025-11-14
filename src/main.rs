@@ -25,6 +25,8 @@ enum Commands {
         /// The name of the profile to activate
         profile_name: String,
     },
+    /// Deactivates any active profile
+    Disable,
 }
 
 fn main() {
@@ -46,6 +48,9 @@ fn run() -> Result<(), AppError> {
         }
         Commands::Enable { profile_name } => {
             commands::enable::enable_profile(&profile_name)?;
+        }
+        Commands::Disable => {
+            commands::disable::disable_profile()?;
         }
     }
 

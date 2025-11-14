@@ -151,6 +151,22 @@ shelf enable frontend
 ✔ Activated profile 'frontend'. .geminiignore updated.
 ```
 
+### `shelf disable`
+
+Deactivates any active profile by clearing the shelf-managed block in the `.geminiignore` file.
+
+**Usage:**
+
+```bash
+shelf disable
+```
+
+**Output:**
+
+```
+✔ All shelf profiles disabled. .geminiignore updated.
+```
+
 ## Installation (Coming Soon)
 
 Instructions on how to install `shelf` will be provided here.

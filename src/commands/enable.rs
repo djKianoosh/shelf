@@ -1,10 +1,9 @@
 use crate::config::{self, Profile};
 use crate::error::AppError;
-use crate::file_utils;
+use crate::file_utils::{
+    self, update_gemini_ignore, SHELF_END_MARKER, SHELF_START_MARKER,
+};
 use std::fs;
-
-const SHELF_START_MARKER: &str = "# --- SHELF START ---";
-const SHELF_END_MARKER: &str = "# --- SHELF END ---";
 
 pub fn enable_profile(profile_name: &str) -> Result<(), AppError> {
     let config = config::find_and_parse()?;
@@ -60,33 +59,4 @@ fn generate_shelf_block(
     block.push(SHELF_END_MARKER.to_string());
 
     block.join("\n")
-}
-
-fn update_gemini_ignore(original_content: &str, shelf_block: &str) -> String {
-    let mut new_content = String::new();
-    let mut in_shelf_block = false;
-    let mut shelf_block_written = false;
-
-    for line in original_content.lines() {
-        if line.trim() == SHELF_START_MARKER {
-            in_shelf_block = true;
-            if !shelf_block_written {
-                new_content.push_str(shelf_block);
-                new_content.push('\n');
-                shelf_block_written = true;
-            }
-        } else if line.trim() == SHELF_END_MARKER {
-            in_shelf_block = false;
-        } else if !in_shelf_block {
-            new_content.push_str(line);
-            new_content.push('\n');
-        }
-    }
-
-    if !shelf_block_written {
-        new_content.push_str(shelf_block);
-        new_content.push('\n');
-    }
-
-    new_content
 }
