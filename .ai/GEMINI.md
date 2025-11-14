@@ -8,6 +8,10 @@
 
 @./project-plan.md
 
+## Todo List
+
+@./todo.md
+
 ## Readme
 
 @../README.md

@@ -167,10 +167,54 @@ shelf disable
 ✔ All shelf profiles disabled. .geminiignore updated.
 ```
 
-## Installation (Coming Soon)
+## Installation
 
-Instructions on how to install `shelf` will be provided here.
+If you have the Rust toolchain installed, you can install `shelf` from source:
 
-## Development (Coming Soon)
+```bash
+git clone https://github.com/your-username/shelf.git
+cd shelf
+cargo install --path .
+```
 
-Information for contributors will be provided here.
+## Development
+
+Contributions are welcome! Here's how to get started:
+
+### Getting Started
+
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/your-username/shelf.git
+    cd shelf
+    ```
+
+2.  Build the project:
+    ```bash
+    cargo build
+    ```
+
+### Running Tests
+
+To run the test suite:
+
+```bash
+cargo test
+```
+
+### Code Style
+
+This project uses `rustfmt` for code formatting and `clippy` for linting. Please ensure your code is formatted and free of linting errors before submitting a pull request.
+
+```bash
+cargo fmt
+cargo clippy -- -D warnings
+```
+
+### Pull Requests
+
+We welcome pull requests. Please make sure your PR includes:
+
+-   A clear description of the changes.
+-   Tests for any new features or bug fixes.
+-   Updated documentation if applicable.

@@ -183,26 +183,27 @@ We will build the `shelf` utility iteratively, focusing on one command at a time
 
 1.  **Phase 1: Feature Breakdown & Planning**
     *   **Developer Prompt:** "Let's plan the `[command_name]` command."
-    *   **Gemini Task:** Break down the requirements for the specific command (e.g., `shelf enable`) into smaller, actionable steps. Define the required logic, error handling cases, and expected outcomes. We will create a checklist for the feature in this document.
+    *   **Gemini Task:** Break down the requirements for the specific command into smaller, actionable steps. Define the required logic, error handling cases, and expected outcomes. Create a checklist for the feature and save it to `.ai/todo.md`.
 
 2.  **Phase 2: Implementation (Test-Driven)**
-    *   **Developer Prompt:** "Write a failing integration test for enabling a profile."
+    *   **Developer Prompt:** "Write a failing integration test for `[feature]`."
     *   **Gemini Task:**
-        *   First, write a test case in the `tests/` directory that executes the command and asserts the expected outcome (e.g., the content of the `.geminiignore` file). This test should fail initially.
-        *   Next, write the minimal Rust source code required to make the test pass. This includes identifying and adding necessary crates to `Cargo.toml` (e.g., `clap`, `serde`, `anyhow`).
+        *   First, write a test case in the `tests/` directory that executes the command and asserts the expected outcome. This test should fail initially.
+        *   Next, write the minimal Rust source code required to make the test pass.
+    *   **Pause for Questions:** After writing the code, I will ask: "The tests are passing. Do you have any questions about the implementation before I proceed with refinement?"
 
-3.  **Phase 3: Refinement, Explanation & Review**
-    *   **Developer Prompt:** "The test is passing. Please refine the code and explain the Rust-specific concepts."
+3.  **Phase 3: Refinement & Explanation**
+    *   **Developer Prompt:** "The code looks good. Please refine it and explain the Rust-specific concepts."
     *   **Gemini Task:**
         *   Run `cargo fmt` and `cargo clippy -- -D warnings` to ensure code quality and style.
-        *   Analyze the code for correctness, suggest refactorings, and add any necessary unit tests.
-        *   **Provide a detailed explanation of the implementation, focusing on Rust-specific idioms and concepts. Assume you are teaching a senior developer new to Rust. Cover topics like ownership, borrowing, error handling (e.g., `Result` and `?`), structs vs. enums, crate choices, and common macros.**
+        *   Analyze the code for correctness and suggest refactorings.
+        *   Provide a detailed explanation of the implementation, focusing on Rust-specific idioms and concepts.
 
 4.  **Phase 4: Documentation & Commit**
     *   **Developer Prompt:** "The `[command_name]` feature is complete. Let's document and commit it."
     *   **Gemini Task:**
-        *   Update the main `README.md` (once created) with usage instructions for the new command.
-        *   Generate a descriptive commit message following the Conventional Commits standard (e.g., `feat(cli): implement 'shelf status' command`).
+        *   Update the main `README.md` with usage instructions for the new command.
+        *   Generate a descriptive commit message following the Conventional Commits standard.
 
 5.  **Phase 5: Reflection & Next Steps**
-    *   After each commit, we will briefly review the progress and decide which feature or checklist item to tackle next.
+    *   **Gemini Task:** After each feature is committed, I will state: "The `[command_name]` feature is complete and has been committed. This is a good time to pause and reflect. Would you like to make any changes to our plan, or should I proceed with the next feature?"

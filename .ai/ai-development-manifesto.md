@@ -14,6 +14,7 @@ This document outlines the principles and patterns that govern our collaboration
 - **Break Down Complexity.** All complex tasks must be broken down into a **Chain of Small Steps**. Large, monolithic changes are unreliable and difficult to verify. This helps avoid **Degradation Under Complexity**.
 - **Verify, Don't Assume.** We will avoid **Unvalidated Leaps**. Every step must be verified. We will use **Constrained Tests**, **Approved Fixtures**, and isolated **Playgrounds** to ensure each component works before integrating it.
 - **Embrace Disposability.** Be **Happy to Delete** failed attempts. AI-generated code is cheap to create. We will avoid the **Sunk Cost** fallacy by reverting failed attempts and starting fresh with a refined prompt, rather than trying to patch a broken foundation.
+- **Interactive Pauses.** We will incorporate deliberate pauses in our workflow. After writing new code, we will pause for questions and clarification. After completing a feature, we will pause for reflection and planning adjustments.
 - **Use Focused Agents.** To combat the **Distracted Agent** anti-pattern, we will use agents with single, narrow responsibilities for critical tasks (e.g., a committer agent, a testing agent, a refactoring agent).
 
 ## 3. Knowledge and Context Management
