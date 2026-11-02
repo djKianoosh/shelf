@@ -13,6 +13,10 @@ pub fn enable_profile(profile_name: &str) -> Result<(), AppError> {
     let gemini_ignore_path =
         file_utils::find_file_upwards(".geminiignore")?.unwrap_or_else(|| ".geminiignore".into());
 
+    if fs::symlink_metadata(&gemini_ignore_path).is_ok_and(|m| m.file_type().is_symlink()) {
+        return Err(AppError::SymlinkNotAllowed(gemini_ignore_path));
+    }
+
     let original_content = if gemini_ignore_path.exists() {
         fs::read_to_string(&gemini_ignore_path)?
     } else {
@@ -24,6 +28,10 @@ pub fn enable_profile(profile_name: &str) -> Result<(), AppError> {
     let global_excludes = global_profile.map(|p| &p.excludes);
     let shelf_block = generate_shelf_block(profile_name, profile, global_includes, global_excludes);
     let new_content = update_gemini_ignore(&original_content, &shelf_block);
+
+    if fs::symlink_metadata(&gemini_ignore_path).is_ok_and(|m| m.file_type().is_symlink()) {
+        return Err(AppError::SymlinkNotAllowed(gemini_ignore_path));
+    }
 
     fs::write(&gemini_ignore_path, new_content)?;
 
