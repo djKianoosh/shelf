@@ -24,6 +24,6 @@ pub fn find_and_parse() -> Result<Config, AppError> {
     let config_path =
         file_utils::find_file_upwards(".shelf.yaml")?.ok_or(AppError::ConfigNotFound)?;
     let file_content = fs::read_to_string(config_path)?;
-    let config: Config = serde_yaml::from_str(&file_content)?;
+    let config: Config = serde_yml::from_str(&file_content)?;
     Ok(config)
 }
