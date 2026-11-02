@@ -1,3 +1,4 @@
+use std::path::PathBuf;
 use thiserror::Error;
 
 #[derive(Debug, Error)]
@@ -6,6 +7,8 @@ pub enum AppError {
     ConfigNotFound,
     #[error("Profile '{0}' not found in .shelf.yaml.")]
     ProfileNotFound(String),
+    #[error("File '{}' is a symlink, which is not allowed.", .0.display())]
+    SymlinkNotAllowed(PathBuf),
     #[error(transparent)]
     Io(#[from] std::io::Error),
     #[error("Failed to parse .shelf.yaml: {0}")]

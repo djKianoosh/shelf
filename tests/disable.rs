@@ -47,3 +47,30 @@ fn test_disable_profile() -> Result<()> {
 
     Ok(())
 }
+
+#[cfg(unix)]
+#[test]
+fn test_disable_profile_symlink_rejected() -> Result<()> {
+    use std::os::unix::fs::symlink;
+
+    let dir = tempdir()?;
+    let target_file = dir.path().join("sensitive_file.txt");
+    let initial_content = "DO_NOT_OVERWRITE";
+    fs::write(&target_file, initial_content)?;
+
+    let gemini_ignore_symlink = dir.path().join(".geminiignore");
+    symlink(&target_file, &gemini_ignore_symlink)?;
+
+    let mut cmd = cargo_bin_cmd!("shelf");
+    cmd.current_dir(dir.path());
+    cmd.arg("disable");
+
+    cmd.assert().failure().stderr(predicate::str::contains(
+        "is a symlink, which is not allowed",
+    ));
+
+    let content = fs::read_to_string(&target_file)?;
+    assert_eq!(content, initial_content);
+
+    Ok(())
+}

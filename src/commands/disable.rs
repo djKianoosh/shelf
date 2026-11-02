@@ -11,9 +11,23 @@ pub fn disable_profile() -> Result<(), AppError> {
         }
     };
 
+    if fs::symlink_metadata(&gemini_ignore_path)?
+        .file_type()
+        .is_symlink()
+    {
+        return Err(AppError::SymlinkNotAllowed(gemini_ignore_path));
+    }
+
     let original_content = fs::read_to_string(&gemini_ignore_path)?;
     let empty_shelf_block = format!("{}\n{}", SHELF_START_MARKER, SHELF_END_MARKER);
     let new_content = update_gemini_ignore(&original_content, &empty_shelf_block);
+
+    if fs::symlink_metadata(&gemini_ignore_path)?
+        .file_type()
+        .is_symlink()
+    {
+        return Err(AppError::SymlinkNotAllowed(gemini_ignore_path));
+    }
 
     fs::write(&gemini_ignore_path, new_content)?;
 
