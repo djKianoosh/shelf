@@ -9,5 +9,5 @@ pub enum AppError {
     #[error(transparent)]
     Io(#[from] std::io::Error),
     #[error("Failed to parse .shelf.yaml: {0}")]
-    YamlParse(#[from] serde_yaml::Error),
+    YamlParse(#[from] serde_yml::Error),
 }
